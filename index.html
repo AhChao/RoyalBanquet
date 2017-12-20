@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RoyalBanquet</title>
+</head>
+<link rel="stylesheet" type="text/css" href="./src/indexCSS.css">
+<body id="gameBody">	 
+	<h1 id="gameTitle">RoyalBanquet</h1>
+	<svg width="830" height="1060">
+		<rect width="830" height="1060" stroke="black" stroke-width="5" fill="None"/>
+		<rect width="150" height="200" x="20" y="20" stroke="black" stroke-width="5" fill="None"/>
+	</svg>
+	<svg width="300" height="1060">
+		<rect width="300" height="1060" stroke="black" stroke-width="5" fill="None"/>
+	</svg>
+	
+	<script type="text/javascript" src="./lib/jquery-3.2.1.min.js"></script>	
+	<script type="text/javascript" src="./lib/d3.v3.min.js"></script>	
+	<script type="text/javascript" src="./lib/dat.gui.min.js"></script>
+	<script type="text/javascript" src="./lib/jquery.colorbox-min.js"></script>
+	<script type="text/javascript" src="./src/main.js"></script>
+	<script type="text/javascript"> 
+		document.addEventListener('click', 
+		function(e) {
+			//console.log(document.activeElement.toString());
+			if(document.activeElement.toString() == '[object HTMLButtonElement]'||
+			   document.activeElement.toString() == '[object HTMLInputElement]'||
+			   document.activeElement.toString() == '[object HTMLBodyElement]')
+			{ document.activeElement.blur();} 
+		});
+	</script>
+</body>
+</html>
