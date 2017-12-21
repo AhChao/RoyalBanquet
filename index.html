@@ -5,10 +5,12 @@
 </head>
 <link rel="stylesheet" type="text/css" href="./src/indexCSS.css">
 <body id="gameBody">
+	<font face="monospace">
 	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">	 
 	<h1 id="gameTitle">RoyalBanquet</h1>
 	<h2>
-		<text>P1 Coin : </text><text id="player1Coin" style="color:#FFD700;">0</text><text style="color:#FFD700;"> Θ</text>
+		<text style="color:#FFD700;background-color:#000000;">【Turn To P1】</text><br>
+		<text>P1 Coin : </text><text id="player1Coin" style="color:#FFD700;background-color:#000000;">0</text><text style="color:#FFD700;background-color:#000000;"> Θ</text>
 	</h2>
 	<div id="divForBasicSVG" style="display: inline;">
 	<svg width="830" height="1060" id="basicSVG">
@@ -21,7 +23,7 @@
 		<rect id="pileSVGBG" width="300" height="1030" stroke="black" stroke-width="5" fill="None"/>
 	</svg>
 	</div>
-	
+	</font>
 	<script type="text/javascript" src="./lib/jquery-3.2.1.min.js"></script>	
 	<script type="text/javascript" src="./lib/d3.v3.min.js"></script>	
 	<script type="text/javascript" src="./lib/dat.gui.min.js"></script>

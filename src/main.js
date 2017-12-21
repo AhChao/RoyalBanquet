@@ -12,11 +12,18 @@ var cardInField = [];
 var pileCardSelected = false;
 var nowSelectedCard = [];
 var nowSelectedCardNo = -1;
+var turnTo = 1;//turnToPlayerWho
+var coinCount = [0];//Players' Coin, could be many player
 
 function init()
 {
+	p1Coin = 0;
+	turnTo = 1;
 	cardInDeck = JSON.parse(JSON.stringify(deck));
-	shiftDeck();
+	for(var i=0;i<5;i++)
+	{
+		drawACard();
+	}
 	initScene();
 	updatePileShow();
 }
@@ -40,6 +47,33 @@ function initScene()
 	    'fill':'None',
 	    'id':'basicSVGBG',
 	    });
+	d3.select("#basicSVG").append("defs")
+	.append("pattern").attr('id',"bgPattern").attr('patternUnits','userSpaceOnUse').attr('width','2000').attr('height','1200')
+	.append("image")
+	.attr({
+	    'height': 1200 ,
+	    'width': 2000,
+	    'x':-600,
+	    'y':0,
+	    'href': "./img/banquetBackground.jpg",
+	    'stroke':'black',
+	    'stroke-width':'5',
+	    'fill':'None',
+	    'id':'basicSVGBGPic',
+	    });
+	d3.select("#basicSVGBG").attr('fill','url(#bgPattern)');
+	/*d3.select("#basicSVG").append("image")
+	.attr({
+	    'height': cardHeight*5 + spacing*6 ,
+	    'width': cardWidth*5 + spacing*6,
+	    'x':0,
+	    'y':0,
+	    'href': "./img/banquetBackground.jpg",
+	    'stroke':'black',
+	    'stroke-width':'5',
+	    'fill':'None',
+	    'id':'basicSVGBGPic',
+	    });*/
 	d3.select("#divForPileSVG").append("svg")
 	.attr({
 	    'height': cardHeight*5 + spacing*6 ,
@@ -55,7 +89,7 @@ function initScene()
 	    'fill':'None',
 	    'id':'pileSVGBG',
 	    });
-	for(var i=0;i<25;i++)
+	for(var i=0;i<25;i++)//空白牌位
 	{
 		d3.select("#basicSVG").append("g").attr('id','G'+i).append("rect")
 		.attr({
@@ -69,6 +103,7 @@ function initScene()
 		    'stroke-width':'5px',
 		    'fill':'white',
 		    'id':"BG"+i,
+		    'opacity':"0.5",
 		    'onclick':"selectCard(this.id)",
 		    });
 	}	
@@ -139,6 +174,28 @@ function selectCard(id)
 				  "basicSVG");
 		cardInPile.splice(nowSelectedCardNo,1);
 		nowSelectedCard = [];
+		var wantTarget = [];//want Target
+		for(var i=0 ;i<cardInField[location][2].length;i++)
+		{
+			wantTarget.push(cardInField[location][2][i]);
+		}
+		var rewardBase = cardInField[location][3];//reward money
+		var rewardTimes = 0;
+		var checkTargetLocation = [-1,1,-5,5];
+
+		for(var i=0;i<wantTarget.length;i++)
+		{
+			for(var j=0;j<checkTargetLocation.length;j++)
+			{
+				if(typeof cardInField[location*1+checkTargetLocation[j]*1]!="undefined")
+				{
+					if(cardInField[location*1+checkTargetLocation[j]*1][1]==wantTarget[i]) rewardTimes++;
+				}
+			}		
+		}
+		coinCount[turnTo-1] = coinCount[turnTo-1] + rewardTimes*rewardBase;
+		document.getElementById("player1Coin").innerText=coinCount[turnTo-1];
+		drawACard();
 		updatePileShow();
 	}
 }
@@ -166,14 +223,29 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 		    'id':name+"BG",
 		    'onclick':"selectCard(this.id)",   
 		    });
-	d3.select("#"+name).append("text")
+	/*d3.select("#"+name).append("text")
 		.text(cardClass)
 		.attr({
-		    'x': x*1+textSpacing*1,
+		    'x': x*1+textSpacing*0.5,
 		    'y': y*1+textSpacing*2,
 		    'fill':'white',
-		    'style':'font-size:20;'
+		    'style':'font-size:30;'
+		    });*/
+	var classImgSrc = "./src/pattern/";
+	if(cardClass=="Ψ") classImgSrc=classImgSrc.concat("King.png");
+	if(cardClass=="♠") classImgSrc=classImgSrc.concat("Royal.png");
+	if(cardClass=="♥") classImgSrc=classImgSrc.concat("Warrior.png");
+	if(cardClass=="♦") classImgSrc=classImgSrc.concat("Trader.png");
+	if(cardClass=="♣") classImgSrc=classImgSrc.concat("Civilian.png");
+	d3.select("#"+name).append("image")
+		.attr({
+		    'x': x*1,
+		    'y': y*1+textSpacing*0.5,
+		    'width': 40,
+		    'height': 40,
+		    'href':classImgSrc,
 		    });
+
 	d3.select("#"+name).append("text")
 		.text(name)
 		.attr({
@@ -182,27 +254,45 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 		    'fill':'white',
 		    'style':'font-size:20;'
 		    });
-	d3.select("#"+name).append("text")
+	/*d3.select("#"+name).append("text")
 		.text(want)
 		.attr({
 		    'x': x*1+textSpacing*2,
 		    'y': y*1+textSpacing*4,
 		    'fill':'#008B8B',
 		    'style':'font-size:40;'
+		    });*/
+	for(var i=0;i<want.length;i++)
+	{
+		var wantImgSrc = "./src/pattern/Want";
+		if(want[i]=="Ψ") wantImgSrc=wantImgSrc.concat("King.png");
+		if(want[i]=="♠") wantImgSrc=wantImgSrc.concat("Royal.png");
+		if(want[i]=="♥") wantImgSrc=wantImgSrc.concat("Warrior.png");
+		if(want[i]=="♦") wantImgSrc=wantImgSrc.concat("Trader.png");
+		if(want[i]=="♣") wantImgSrc=wantImgSrc.concat("Civilian.png");
+		d3.select("#"+name).append("image")
+		.attr({
+		    'x': x*1+textSpacing*(Number(i)*2),
+		    'y': y*1+textSpacing*4,
+		    'width': 40,
+		    'height': 40,
+		    'href':wantImgSrc,
 		    });
+	}
+
 	d3.select("#"+name).append("text")
 		.text("Θ + "+reward)
 		.attr({
 		    'x': x*1+textSpacing*2,
-		    'y': y*1+textSpacing*7,
+		    'y': y*1+ cardHeight*1 - textSpacing*1,
 		    'fill': "#FFD700",
 		    'style':'font-size:30;'
 		    });
 }
 
-function shiftDeck()
+function drawACard()//drawACardFromDeckToPile
 {
-	for(var i=0;i<5;i++)
+	if(cardInDeck.length>0)
 	{
 		var randomNum = parseInt(Math.random()*Number(cardInDeck.length));
 		cardInPile.push(cardInDeck[randomNum]);
