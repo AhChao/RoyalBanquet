@@ -4,20 +4,29 @@
 	<title>RoyalBanquet</title>
 </head>
 <link rel="stylesheet" type="text/css" href="./src/indexCSS.css">
-<body id="gameBody">	 
+<body id="gameBody">
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">	 
 	<h1 id="gameTitle">RoyalBanquet</h1>
-	<svg width="830" height="1060">
-		<rect width="830" height="1060" stroke="black" stroke-width="5" fill="None"/>
+	<h2>
+		<text>P1 Coin : </text><text id="player1Coin" style="color:#FFD700;">0</text><text style="color:#FFD700;"> Θ</text>
+	</h2>
+	<div id="divForBasicSVG" style="display: inline;">
+	<svg width="830" height="1060" id="basicSVG">
+		<rect id="basicSVGBG" width="830" height="1060" stroke="black" stroke-width="5" fill="None"/>
 		<rect width="150" height="200" x="20" y="20" stroke="black" stroke-width="5" fill="None"/>
 	</svg>
-	<svg width="300" height="1060">
-		<rect width="300" height="1060" stroke="black" stroke-width="5" fill="None"/>
+	</div>
+	<div id="divForPileSVG" style="display: inline;">
+	<svg id="pileSVG" width="300" height="1060">
+		<rect id="pileSVGBG" width="300" height="1030" stroke="black" stroke-width="5" fill="None"/>
 	</svg>
+	</div>
 	
 	<script type="text/javascript" src="./lib/jquery-3.2.1.min.js"></script>	
 	<script type="text/javascript" src="./lib/d3.v3.min.js"></script>	
 	<script type="text/javascript" src="./lib/dat.gui.min.js"></script>
 	<script type="text/javascript" src="./lib/jquery.colorbox-min.js"></script>
+	<script type="text/javascript" src="./src/basicDeck.js"></script>
 	<script type="text/javascript" src="./src/main.js"></script>
 	<script type="text/javascript"> 
 		document.addEventListener('click', 
