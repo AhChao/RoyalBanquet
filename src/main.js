@@ -14,11 +14,13 @@ var nowSelectedCard = [];
 var nowSelectedCardNo = -1;
 var turnTo = 1;//turnToPlayerWho
 var coinCount = [0];//Players' Coin, could be many player
-
+var p1BadReputation = 0;
 function init()
 {
+	deck = JSON.parse(JSON.stringify(generateRandomDeck()));
 	p1Coin = 0;
 	turnTo = 1;
+	p1BadReputation = 0;
 	cardInDeck = JSON.parse(JSON.stringify(deck));
 	for(var i=0;i<5;i++)
 	{
@@ -193,6 +195,21 @@ function selectCard(id)
 				}
 			}		
 		}
+		if(rewardTimes==0)
+		{
+			p1BadReputation++;
+			d3.select("#P1HP"+p1BadReputation).attr("fill","black");
+		}
+		if(p1BadReputation>=3)
+		{
+			d3.select("#basicSVG").append("image")
+			.attr({
+			    'x': 0,
+			    'y': 250,
+			    'width': 800,
+			    'href':"./src/pattern/firedImg.png",
+			    });
+		}
 		coinCount[turnTo-1] = coinCount[turnTo-1] + rewardTimes*rewardBase;
 		document.getElementById("player1Coin").innerText=coinCount[turnTo-1];
 		drawACard();
@@ -223,6 +240,24 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 		    'id':name+"BG",
 		    'onclick':"selectCard(this.id)",   
 		    });
+
+	//talkStroke
+	d3.select("#"+name).append("ellipse")
+		.attr({
+		    'cx': x*1+cardWidth/2,
+		    'cy': y*1+100,
+		    'rx': cardWidth/2,
+		    'ry': 30,
+		    'fill':'white', 
+		    });
+	var triBaseX = x*1+25;
+	var triBaseY = y*1+50;
+	d3.select("#"+name).append("polygon")
+		.attr({
+		    'points': triBaseX+","+triBaseY+" "+triBaseX+","+(triBaseY*1+40)+" "+(triBaseX*1+40)+","+(triBaseY*1+40)+" ",
+		    'fill':'white', 
+		    });
+
 	/*d3.select("#"+name).append("text")
 		.text(cardClass)
 		.attr({
