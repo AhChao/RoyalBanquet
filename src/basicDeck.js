@@ -50,9 +50,25 @@ function generateRandomDeck()
 						willPutElement = classIconLayer[parseInt(Math.random()*Number(classIconLayer.length))];
 						k=-1;
 					} 
-				}
+				}				
 				wantList.push(willPutElement);
 			}
+			var classRearrangeList=[0,0,0,0,0];
+			for(var j=0;j<wantList.length;j++)
+			{
+				if(wantList[j]=="♣") classRearrangeList[0]++;
+				if(wantList[j]=="♦") classRearrangeList[1]++;
+				if(wantList[j]=="♥") classRearrangeList[2]++;
+				if(wantList[j]=="♠") classRearrangeList[3]++;
+				if(wantList[j]=="Ψ") classRearrangeList[4]++;
+			}
+			wantList=[];
+			for(var j=0;j<classRearrangeList.length;j++)
+			{
+				if(classRearrangeList[j]>0) wantList.push(classIconLayer[j]);
+			}
+
+
 			var charCode = 65 + i-classNumLayer[classLayerCount-1];
 			if(classLayerCount==0) charCode = 65+i;
 			randomDeck.push([nameLayer[classLayerCount]+String.fromCharCode(charCode),
