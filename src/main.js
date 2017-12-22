@@ -289,7 +289,6 @@ function selectCard(id)
 
 		if(stageSet["stage"+nowStage]["stageTarget"]<=coinCount[turnTo-1])
 		{
-			console.log("KUKU");
 			stageClear();
 		}
 	}
@@ -299,10 +298,10 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 {
 	//Sample Text Ψ ♠ ♥ ♦ ♣ Θ
 	//madeACard(20,20,"Royal","♦","♥","3","pileSVG")
-
 	d3.select("#"+targetSVGID).append("g")
 		.attr({
-		    'id':name,		    	    
+		    'id':name,
+		    'onclick':"selectCard(this.id+'BG')",	    	    
 		    });
 	d3.select("#"+name).append("rect")
 		.attr({
@@ -316,7 +315,7 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 		    'stroke-width':'5px',
 		    'fill':'black',
 		    'id':name+"BG",
-		    'onclick':"selectCard(this.id)",   
+		    //'onclick':"selectCard(this.id)",   
 		    });
 
 	//talkStroke
@@ -410,6 +409,18 @@ function drawACard()//drawACardFromDeckToPile
 		if(cardInDeck.length>0)
 		{
 			cardInPile.push(cardInDeck.shift());
+		}
+		else if(cardInPile.length<=0&&stageSet["stage"+nowStage]["stageTarget"]>coinCount[turnTo-1])
+		{
+			d3.select("#basicSVG").append("image")
+			.attr({
+			    'x': 0,
+			    'y': 250,
+			    'width': 800,
+			    'id':"firedPNG",
+			    'href':"./src/pattern/firedImg.png",
+			    'onclick':"restartStage()",
+			    });
 		}
 	}
 	else

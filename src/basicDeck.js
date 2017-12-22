@@ -16,7 +16,15 @@ var basicDeck=
 
 var stageSet=
 {
- "stage1":{
+"stage1":{
+	"stageDeck":
+	[
+	["Trader","♦","♣","3"],
+	["Civilian","♣","Ψ","1"],
+	],	
+	"stageTarget":3,
+ },
+ "stage2":{
  	"stageDeck":
  	[
  		["King","Ψ","♠","7"],
@@ -27,7 +35,7 @@ var stageSet=
  	],	
 	"stageTarget":19,
  },
- "stage2":{
+ "stage3":{
  	"stageDeck":
  	[
 		["Trader","♦","♣","3"],
@@ -38,7 +46,7 @@ var stageSet=
  	],	
 	"stageTarget":11,
  },
- "stage3":{
+ "stage4":{
  	"stageDeck":
  	[
  		["WarriorA","♥","♣","4"],
@@ -48,9 +56,9 @@ var stageSet=
 		["CivilianC","♣","Ψ","1"],
 		["Trader","♦","♣","3"],
  	],	
-	"stageTarget":22,
+	"stageTarget":26,
  },
- "stage4":{
+ "stage5":{
  	"stageDeck":
  	[
  		["WarriorA","♥","♦","4"],
