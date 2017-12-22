@@ -9,18 +9,84 @@ var deck = JSON.parse(JSON.stringify(basicDeck));
 var cardInPile = [];
 var cardInDeck = [];
 var cardInField = [];
+var firstCardIn = false;//第一張牌入場
 var pileCardSelected = false;
 var nowSelectedCard = [];
 var nowSelectedCardNo = -1;
 var turnTo = 1;//turnToPlayerWho
 var coinCount = [0];//Players' Coin, could be many player
 var p1BadReputation = 0;
+var mode="stageMode";// stageMode,randomMode,pkMode
+var nowStage = 1;
+
+function setUp()
+{
+	if(mode=="randomMode")
+	{
+		deck = JSON.parse(JSON.stringify(generateRandomDeck()));
+	}
+	else if(mode=="stageMode")
+	{
+		var stageName = "stage"+nowStage;
+		deck = stageSet[stageName]["stageDeck"];
+		document.getElementById("stageTargetText").innerText = stageSet[stageName]["stageTarget"];
+	}
+	init();
+}
+
+function stageSelectByOption()
+{
+	var stageName = document.getElementById("stageSelect").value;
+	nowStage = stageName.slice(5);
+	deck = stageSet[stageName]["stageDeck"];
+	document.getElementById("stageTargetText").innerText = stageSet[stageName]["stageTarget"];
+	init();
+}
+
+function stageClear()
+{
+	d3.select("#basicSVG").append("image")
+	.attr({
+		    'x': 100,
+		    'y': 300,
+		    'width': 660,
+		    'id':"successPNG",
+		    'href':"./src/pattern/successImg.png",
+		    'onclick':"toNextStage()",
+		    });
+}
+function toNextStage()
+{
+	nowStage++;  
+    var stageName = "stage"+nowStage;
+    deck = stageSet[stageName]["stageDeck"];
+	document.getElementById("stageTargetText").innerText = stageSet[stageName]["stageTarget"];
+	init();
+}
+function restartStage()
+{  
+    var stageName = "stage"+nowStage;
+    deck = stageSet[stageName]["stageDeck"];
+	document.getElementById("stageTargetText").innerText = stageSet[stageName]["stageTarget"];
+	init();
+}
+
 function init()
 {
-	deck = JSON.parse(JSON.stringify(generateRandomDeck()));
-	p1Coin = 0;
+	if(mode=="stageMode")
+		document.getElementById("gameTitle").innerText = "RoyalBanquet"+" - stage"+nowStage;
+
+	firstCardIn = false;
+	cardInPile = [];
+	cardInDeck = [];
+	cardInField = [];
+	pileCardSelected = false;
+	nowSelectedCard = [];
+	coinCount = [0];
+	nowSelectedCardNo = -1;
 	turnTo = 1;
 	p1BadReputation = 0;
+
 	cardInDeck = JSON.parse(JSON.stringify(deck));
 	for(var i=0;i<5;i++)
 	{
@@ -109,6 +175,9 @@ function initScene()
 		    'onclick':"selectCard(this.id)",
 		    });
 	}	
+	d3.select("#P1HP1").attr("fill","red");
+	d3.select("#P1HP2").attr("fill","red");
+	d3.select("#P1HP3").attr("fill","red");
 }
 
 function clearSelect()
@@ -193,13 +262,14 @@ function selectCard(id)
 				{
 					if(cardInField[location*1+checkTargetLocation[j]*1][1]==wantTarget[i]) rewardTimes++;
 				}
-			}		
+			}					
 		}
-		if(rewardTimes==0)
+		if(rewardTimes==0&&firstCardIn)
 		{
 			p1BadReputation++;
 			d3.select("#P1HP"+p1BadReputation).attr("fill","black");
 		}
+		if(!firstCardIn) firstCardIn = true;
 		if(p1BadReputation>=3)
 		{
 			d3.select("#basicSVG").append("image")
@@ -207,13 +277,21 @@ function selectCard(id)
 			    'x': 0,
 			    'y': 250,
 			    'width': 800,
+			    'id':"firedPNG",
 			    'href':"./src/pattern/firedImg.png",
+			    'onclick':"restartStage()",
 			    });
 		}
 		coinCount[turnTo-1] = coinCount[turnTo-1] + rewardTimes*rewardBase;
 		document.getElementById("player1Coin").innerText=coinCount[turnTo-1];
 		drawACard();
 		updatePileShow();
+
+		if(stageSet["stage"+nowStage]["stageTarget"]<=coinCount[turnTo-1])
+		{
+			console.log("KUKU");
+			stageClear();
+		}
 	}
 }
 
@@ -327,12 +405,22 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 
 function drawACard()//drawACardFromDeckToPile
 {
-	if(cardInDeck.length>0)
+	if(mode=="stageMode")
 	{
-		var randomNum = parseInt(Math.random()*Number(cardInDeck.length));
-		cardInPile.push(cardInDeck[randomNum]);
-		cardInDeck.splice(randomNum,1);
-	}	
+		if(cardInDeck.length>0)
+		{
+			cardInPile.push(cardInDeck.shift());
+		}
+	}
+	else
+	{
+		if(cardInDeck.length>0)
+		{
+			var randomNum = parseInt(Math.random()*Number(cardInDeck.length));
+			cardInPile.push(cardInDeck[randomNum]);
+			cardInDeck.splice(randomNum,1);
+		}
+	}		
 }
 
 function updatePileShow()
@@ -351,4 +439,4 @@ function updatePileShow()
 	}
 }
 
-init();
+setUp();

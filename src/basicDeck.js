@@ -14,6 +14,56 @@ var basicDeck=
 	["CivilianE","♣","♠","1"],
 ];
 
+var stageSet=
+{
+ "stage1":{
+ 	"stageDeck":
+ 	[
+ 		["King","Ψ","♠","7"],
+		["Royal","♠","♥","5"],	
+		["Warrior","♥","♦","4"],
+		["Trader","♦","♣","3"],
+		["Civilian","♣","Ψ","1"],
+ 	],	
+	"stageTarget":19,
+ },
+ "stage2":{
+ 	"stageDeck":
+ 	[
+		["Trader","♦","♣","3"],
+		["CivilianA","♣","Ψ","1"],
+		["CivilianB","♣","Ψ","1"],
+		["CivilianC","♣","♦","1"],
+		["CivilianD","♣","♣","1"],
+ 	],	
+	"stageTarget":11,
+ },
+ "stage3":{
+ 	"stageDeck":
+ 	[
+ 		["WarriorA","♥","♣","4"],
+ 		["WarriorB","♥","♣","4"],		
+		["CivilianA","♣","♥","1"],
+		["CivilianB","♣","♥","1"],
+		["CivilianC","♣","Ψ","1"],
+		["Trader","♦","♣","3"],
+ 	],	
+	"stageTarget":22,
+ },
+ "stage4":{
+ 	"stageDeck":
+ 	[
+ 		["WarriorA","♥","♦","4"],
+ 		["WarriorB","♥","♦","4"],
+ 		["TraderA","♦","♣","3"],
+ 		["TraderB","♦","♣","3"],
+		["CivilianA","♣","♥","1"],
+		["CivilianB","♣","♥","1"],
+ 	],	
+	"stageTarget":22,
+ }
+};
+
 function generateRandomDeck()
 {
 	var randomDeck=[];

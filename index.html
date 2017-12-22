@@ -9,13 +9,22 @@
 	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">	 
 	<h1><img width="40" height="40" src="./img/doorIcon.jpg" /><Text id="gameTitle" style="background-color:black;color:white">RoyalBanquet</Text></h1>
 	<h2>
-		<text style="color:#FFD700;background-color:#000000;">【Turn To P1】</text><br>
+		<text style="color:#FFD700;background-color:#000000;">【StageMode】</text>
+		<text>Choose Stage :</text>
+		<select id="stageSelect" onchange="stageSelectByOption()">			
+			<option value="stage1">stage1</option>
+			<option value="stage2">stage2</option>
+			<option value="stage3">stage3</option>
+			<option value="stage4">stage4</option>
+			<option value="stage5">stage5</option>
+		</select>
+		<!--<text style="color:#FFD700;background-color:#000000;">【Turn To P1】</text>--><br>
 		<text>P1 Coin : </text><text id="player1Coin" style="color:#FFD700;background-color:#000000;">0</text><text style="color:#FFD700;background-color:#000000;"> Θ</text><text> | Reputation:</text>
-		<svg id="P1HPSVG" width="100" height="20">			
+		<svg id="P1HPSVG" width="80" height="20">			
 			<circle r="6" cx="13" cy="13" fill="red" stroke="black" stroke-width="2" id="P1HP1"/>
 			<circle r="6" cx="33" cy="13" fill="red" stroke="black" stroke-width="2" id="P1HP2"/>
 			<circle r="6" cx="53" cy="13" fill="red" stroke="black" stroke-width="2" id="P1HP3"/>
-		</svg>		
+		</svg><text> | Target : </text><text id="stageTargetText">?</text>
 	</h2>
 	<div id="divForBasicSVG" style="display: inline;">
 	<svg width="830" height="1060" id="basicSVG">
