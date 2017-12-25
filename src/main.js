@@ -73,6 +73,7 @@ function restartStage()
 
 function init()
 {
+	document.getElementById("modeText").innerText = "【" + mode + "】";	
 	if(mode=="stageMode")
 		document.getElementById("gameTitle").innerText = "RoyalBanquet"+" - stage"+nowStage;
 
@@ -83,6 +84,7 @@ function init()
 	pileCardSelected = false;
 	nowSelectedCard = [];
 	coinCount = [0];
+	document.getElementById("player1Coin").innerText=0;
 	nowSelectedCardNo = -1;
 	turnTo = 1;
 	p1BadReputation = 0;
@@ -287,7 +289,7 @@ function selectCard(id)
 		drawACard();
 		updatePileShow();
 
-		if(stageSet["stage"+nowStage]["stageTarget"]<=coinCount[turnTo-1])
+		if(stageSet["stage"+nowStage]["stageTarget"]<=coinCount[turnTo-1]&&mode=="stageMode")
 		{
 			stageClear();
 		}
@@ -393,7 +395,7 @@ function madeACard(x,y,name,cardClass,want,reward,targetSVGID)
 	}
 
 	d3.select("#"+name).append("text")
-		.text("Θ + "+reward)
+		.text("$ + "+reward)
 		.attr({
 		    'x': x*1+textSpacing*2,
 		    'y': y*1+ cardHeight*1 - textSpacing*1,

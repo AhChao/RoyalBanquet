@@ -89,7 +89,8 @@ function generateRandomDeck()
 	var classLayerCount =0;
 	var nameLayer=["Civilian","Trader","Warrior","Royal","King"];
 	var classIconLayer=["♣","♦","♥","♠","Ψ"];
-	var wantLayer=[3,3,2,2,2];
+	//var wantLayer=[3,3,2,2,2];
+	var wantLayer=[2,2,1,1,1];
 	var rewardLayer=[1,3,4,5,7];
 	
 	for(var i=0;i<totalDeckCards;i++)
